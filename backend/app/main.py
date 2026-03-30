@@ -39,6 +39,10 @@ async def startup():
     await init_db()
     start_scheduler()
 
+@app.get("/")
+async def health_check():
+    return {"status": "ok", "message": "AI投资助手 API 运行正常"}
+
 # ═══════════════════════════════════════════════════════════════
 # Auth
 # ═══════════════════════════════════════════════════════════════
