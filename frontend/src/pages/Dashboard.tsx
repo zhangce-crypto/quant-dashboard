@@ -233,7 +233,7 @@ export default function Dashboard() {
                 title="删除此组合"
                 style={{
                   padding: '7px 9px', background: 'transparent',
-                  borderLeft: '1px solid var(--border)', border: 'none',
+                  border: 'none',
                   borderLeft: '1px solid var(--border)',
                   color: 'var(--muted)', cursor: 'pointer', fontSize: 14, lineHeight: 1,
                 }}
