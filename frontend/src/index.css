@@ -1,0 +1,57 @@
+/* src/index.css — 全局样式，金融终端风格 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:        #0d0f14;
+  --bg2:       #13161e;
+  --bg3:       #1a1e28;
+  --border:    #252936;
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --up:        #22c55e;
+  --down:      #ef4444;
+  --neutral:   #f59e0b;
+  --accent:    #6366f1;
+  --accent2:   #818cf8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono { font-family: 'DM Mono', monospace; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* signal colors */
+.sig-up      { color: var(--up); }
+.sig-down    { color: var(--down); }
+.sig-neutral { color: var(--neutral); }
+
+/* card */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+/* score ring animation */
+@keyframes ring-fill {
+  from { stroke-dashoffset: 283; }
+}
