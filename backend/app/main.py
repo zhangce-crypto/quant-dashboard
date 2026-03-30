@@ -14,6 +14,7 @@ from pydantic import BaseModel, EmailStr
 import logging
 
 from app.core.config import settings
+from app.core.scheduler import start_scheduler
 from app.db.session import get_db, init_db
 from app.models.db_models import User, Portfolio, PortfolioStock, QuantScore, Prediction, AccuracyStat
 from app.services.data_fetcher import fetch_realtime_quotes, fetch_index_quotes, fetch_history
@@ -36,6 +37,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup():
     await init_db()
+    start_scheduler()
 
 # ═══════════════════════════════════════════════════════════════
 # Auth
