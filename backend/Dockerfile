@@ -10,8 +10,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 赋予启动脚本执行权限
-RUN chmod +x start.sh
-
-# 使用 start.sh 启动，正确读取 Railway 注入的 $PORT 环境变量
-CMD ["/bin/sh", "start.sh"]
+# 使用 Python 脚本启动，通过 os.environ.get("PORT") 正确读取 Railway 注入的端口
+CMD ["python", "run.py"]
