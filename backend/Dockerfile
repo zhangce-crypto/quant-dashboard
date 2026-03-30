@@ -10,5 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 启动：使用 shell 形式以正确解析 $PORT 环境变量（Railway 会注入 PORT）
-CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# 赋予启动脚本执行权限
+RUN chmod +x start.sh
+
+# 使用 start.sh 启动，正确读取 Railway 注入的 $PORT 环境变量
+CMD ["/bin/sh", "start.sh"]
