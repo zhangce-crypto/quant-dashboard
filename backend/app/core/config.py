@@ -13,7 +13,16 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> List[str]:
-        return json.loads(self.CORS_ORIGINS)
+        """支持 JSON 数组格式或逗号分隔字符串两种格式"""
+        value = self.CORS_ORIGINS.strip()
+        # 尝试 JSON 解析
+        if value.startswith("["):
+            try:
+                return json.loads(value)
+            except json.JSONDecodeError:
+                pass
+        # 逗号分隔字符串格式
+        return [origin.strip() for origin in value.split(",") if origin.strip()]
 
     @property
     def async_database_url(self) -> str:
