@@ -10,5 +10,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 启动：含定时任务
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 启动：使用 shell 形式以正确解析 $PORT 环境变量（Railway 会注入 PORT）
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
