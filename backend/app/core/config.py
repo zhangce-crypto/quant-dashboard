@@ -15,6 +15,15 @@ class Settings(BaseSettings):
     def cors_origins_list(self) -> List[str]:
         return json.loads(self.CORS_ORIGINS)
 
+    @property
+    def async_database_url(self) -> str:
+        """将 postgresql:// 自动转换为 postgresql+asyncpg:// 以支持异步驱动"""
+        url = self.DATABASE_URL
+        if url.startswith("postgresql://") or url.startswith("postgres://"):
+            url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+            url = url.replace("postgres://", "postgresql+asyncpg://", 1)
+        return url
+
     class Config:
         env_file = ".env"
         extra = "ignore"
