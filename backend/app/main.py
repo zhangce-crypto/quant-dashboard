@@ -26,16 +26,16 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="AI投资助手 API", version="1.0.0")
 
+
 # ── CORS 跨域中间件 ────────────────────────────────────────────
-# allow_origins      从环境变量 CORS_ORIGINS 动态读取，不需要改代码
-#                    在 Railway Variables 里设置前端域名即可
-# allow_methods      显式列出所有需要的方法，包含 OPTIONS（浏览器预检请求必须）
-# expose_headers     允许前端 JS 读取响应头（如 Authorization）
-# max_age            预检请求缓存 1 小时，减少浏览器重复发 OPTIONS 请求
+# 当前配置：allow_origins=["*"] 允许所有域名访问
+# 原因：环境变量读取异常的临时解决方案
+# TODO V1.2：恢复为 allow_origins=settings.cors_origins_list
+# 注意：allow_origins=["*"] 时 allow_credentials 必须为 False
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
     expose_headers=["*"],
