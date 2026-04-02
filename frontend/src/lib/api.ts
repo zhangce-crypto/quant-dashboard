@@ -1,8 +1,7 @@
-// src/lib/api.ts
+// src/lib/api.ts V2.0
 import axios from 'axios'
 
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-
 export const api = axios.create({ baseURL: BASE })
 
 api.interceptors.request.use(cfg => {
@@ -10,19 +9,14 @@ api.interceptors.request.use(cfg => {
   if (token) cfg.headers.Authorization = `Bearer ${token}`
   return cfg
 })
-
-api.interceptors.response.use(
-  r => r,
-  err => {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('token')
-      window.location.href = '/login'
-    }
-    return Promise.reject(err)
+api.interceptors.response.use(r => r, err => {
+  if (err.response?.status === 401) {
+    localStorage.removeItem('token')
+    window.location.href = '/login'
   }
-)
+  return Promise.reject(err)
+})
 
-// ── Auth ────────────────────────────────────────────────────────
 export const authApi = {
   login:    (email: string, password: string) =>
     api.post('/api/auth/login', new URLSearchParams({ username: email, password })),
@@ -31,7 +25,6 @@ export const authApi = {
   me:       () => api.get('/api/auth/me'),
 }
 
-// ── Portfolios ──────────────────────────────────────────────────
 export const portfolioApi = {
   list:        () => api.get('/api/portfolios'),
   create:      (name: string, description?: string) => api.post('/api/portfolios', { name, description }),
@@ -40,7 +33,6 @@ export const portfolioApi = {
   removeStock: (pid: string, sid: string) => api.delete(`/api/portfolios/${pid}/stocks/${sid}`),
 }
 
-// ── Market ──────────────────────────────────────────────────────
 export const marketApi = {
   quotes:    (pid: string) => api.get(`/api/market/quotes/${pid}`),
   analysis:  (code: string, market: string) => api.get(`/api/market/stock/${code}/analysis`, { params: { market } }),
@@ -48,8 +40,9 @@ export const marketApi = {
   search:    (q: string, market: string) => api.get('/api/search', { params: { q, market } }),
 }
 
-// ── Accuracy ────────────────────────────────────────────────────
 export const accuracyApi = {
-  summary: () => api.get('/api/accuracy'),
-  history: (code: string) => api.get(`/api/accuracy/history/${code}`),
+  summary:    () => api.get('/api/accuracy'),
+  history:    (code: string) => api.get(`/api/accuracy/history/${code}`),
+  byStock:    () => api.get('/api/accuracy/by-stock'),
+  byCategory: () => api.get('/api/accuracy/by-category'),
 }
